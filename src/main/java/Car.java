@@ -8,4 +8,12 @@ public class Car {
         this.attributs = attributs;
         this.plates = plates;
     }
+
+    public List<Attribut> getAttributs() {
+        return attributs;
+    }
+
+    public List<Plate> getPlates() {
+        return plates;
+    }
 }

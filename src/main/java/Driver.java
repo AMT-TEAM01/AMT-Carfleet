@@ -12,4 +12,20 @@ public class Driver {
         this.id = id;
         this.name = name;
     }
+
+    public List<Attribut> getAttributs() {
+        return attributs;
+    }
+
+    public List<Plate> getPlates() {
+        return plates;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
