@@ -7,8 +7,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import java.io.IOException;
 
-public class CarCustomDeserialize extends StdDeserializer {
-    protected CarCustomDeserialize(Class vc) {
+public class DriverCustomDeserialize extends StdDeserializer {
+    protected DriverCustomDeserialize(Class vc) {
         super(vc);
     }
 

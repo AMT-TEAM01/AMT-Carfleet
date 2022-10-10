@@ -1,5 +1,9 @@
+import Serialization.CarCustomDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.List;
 
+@JsonDeserialize(using = CarCustomDeserialize.class)
 public class Car {
     private List<Attribut> attributs;
     private List<Plate> plates;

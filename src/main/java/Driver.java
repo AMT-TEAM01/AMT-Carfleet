@@ -1,5 +1,9 @@
+import Serialization.DriverCustomDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import java.util.List;
 
+@JsonDeserialize(using = DriverCustomDeserialize.class)
 public class Driver {
     private List<Attribut> attributs;
     private List<Plate> plates;
