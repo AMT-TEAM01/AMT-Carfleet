@@ -1,7 +1,7 @@
-import Serialization.CarCustomDeserialize;
-import Serialization.DriverCustomDeserialize;
+import Structure.Car;
+import Structure.Driver;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -10,10 +10,10 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DeSerialisationTest {
-    private ObjectMapper mapper;
+    private static ObjectMapper mapper;
 
-    @Before
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
         mapper = new ObjectMapper();
     }
 

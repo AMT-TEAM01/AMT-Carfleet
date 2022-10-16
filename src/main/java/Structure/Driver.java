@@ -1,3 +1,5 @@
+package Structure;
+
 import Serialization.DriverCustomDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
