@@ -55,6 +55,13 @@ public class DeSerialisationTest {
     }
 
     @Test
+    public void driver_missing_attribut_json_ThrowsException() throws IOException {
+        assertThrows(MissingAttributJsonException.class, () -> {
+            mapper.readValue(new File("data/carMissingAttribut.json"), Driver.class);
+        });
+    }
+
+    @Test
     public void driver_attribut_not_correct_json_ThrowsException() throws IOException {
         assertThrows(AttributNotCorrectJsonException.class, () -> {
             mapper.readValue(new File("data/driverAttributNotCorrect.json"), Driver.class);

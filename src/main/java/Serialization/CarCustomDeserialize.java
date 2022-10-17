@@ -9,12 +9,13 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+import Exception.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class CarCustomDeserialize extends StdDeserializer {
+public class CarCustomDeserialize extends EntityCustomDeserialize {
     public CarCustomDeserialize() {
         this(null);
     }
@@ -25,18 +26,17 @@ public class CarCustomDeserialize extends StdDeserializer {
 
     @Override
     public Object deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        JsonNode boards = node.get("data").get("boards");
-
-        List<Plate> plates = new ArrayList<>();
-        List<Attribut> attributs = new ArrayList<>();
+        super.deserialize(jsonParser, deserializationContext);
 
         for (JsonNode board : boards) {
             JsonNode items = board.get("items");
 
-            for (JsonNode item : items) {
-                plates.add(new Plate(item.get("id").asInt(), item.get("name").asText()));
+            if (items == null) {
+                throw new MalformedJsonException();
+            }
 
+            for (JsonNode item : items) {
+                super.checkIdName(plates, item);
 
                 for (JsonNode attribut : item.get("column_values")) {
                     attributs.add(new Attribut(attribut.get("title").asText(), attribut.get("text").asText()));

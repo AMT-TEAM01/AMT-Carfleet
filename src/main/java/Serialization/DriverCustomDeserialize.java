@@ -9,11 +9,13 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
+import Exception.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverCustomDeserialize extends StdDeserializer {
+public class DriverCustomDeserialize extends EntityCustomDeserialize {
 
     public DriverCustomDeserialize() {
         this(null);
@@ -25,22 +27,36 @@ public class DriverCustomDeserialize extends StdDeserializer {
 
     @Override
     public Object deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        JsonNode node = jsonParser.getCodec().readTree(jsonParser);
-        JsonNode boards = node.get("data").get("boards");
+        super.deserialize(jsonParser, deserializationContext);
 
-        List<Plate> plates = new ArrayList<>();
-        List<Attribut> attributs = new ArrayList<>();
         String name = null;
         int id = 0;
 
         for (JsonNode board : boards) {
             JsonNode items = board.get("items");
 
+            if (items == null) {
+                throw new MalformedJsonException();
+            }
+
             for (JsonNode item : items) {
-                plates.add(new Plate(item.get("id").asInt(), item.get("name").asText()));
+                super.checkIdName(plates, item);
 
+                JsonNode subitems = item.get("subitems");
 
-                for (JsonNode subs : item.get("subitems")) {
+                if (subitems == null) {
+                    throw new MalformedJsonException();
+                }
+
+                for (JsonNode subs : subitems) {
+                    if (!subs.has("id") || !subs.has("name")) {
+                        throw new MissingAttributJsonException();
+                    }
+
+                    if (!subs.get("id").isTextual() || !subs.get("name").isTextual()) {
+                        throw  new AttributNotCorrectJsonException();
+                    }
+
                     name = subs.get("name").asText();
                     id = subs.get("id").asInt();
                     
